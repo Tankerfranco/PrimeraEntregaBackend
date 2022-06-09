@@ -11,11 +11,9 @@ app.use("/api/productos", productRouter);
 app.use("/api/carrito",cartRouter);
 
 app.use(function(req, res) {
-  // request invalida
         res.json({
-          error: 
-            '-2'
-          , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+          error: '-2',
+          description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
         });
   });
 

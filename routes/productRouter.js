@@ -3,6 +3,7 @@ const productRouter = express.Router();
 const path = require('path');
 const moment = require('moment'); 
 
+
 let productContainer = require("../contenedores/productContainer.js");
 let archivoPath = path.join(__dirname, '..', '/data/productos.json');
 let productos = new productContainer(archivoPath);

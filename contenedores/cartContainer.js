@@ -2,8 +2,6 @@ const fs = require("fs");
 
 const fileToArray = async (fileName) => {
   try {
-    //leer archivo y cargarlo en array
-    //devolver array
     return JSON.parse(await fs.promises.readFile(fileName));
   } catch (error) {
     console.log("Se produjo un error!");
@@ -30,7 +28,6 @@ const createEmptyFile = async (fileName) => {
 };
 
 const fileChecker = async (fileName) => {
-  //chequeo que el archivo exista si no existe lo creo
   const stats = fs.existsSync(fileName);
 
   if (!(stats)) {
@@ -41,13 +38,11 @@ const fileChecker = async (fileName) => {
 
 module.exports = class cartContainer {
   constructor(fileName) {
-    //this.container = [];
     this.fileName = fileName;
   }
 
   async createCart(obj) {
     try {
-        //chequeo que el archivo exista si no existe lo creo
          await fileChecker(this.fileName);
       let array = await fileToArray(this.fileName);
       let longitud = array.length;
@@ -56,15 +51,13 @@ module.exports = class cartContainer {
       if (longitud == 0) {
         index = 1;
       } else {
-        //sumar uno al id del ultimo elemento y agregarlo al id del objeto
         index = array[longitud - 1].id + 1;
       }
 
       obj.id = index;
       array.push(obj);
-      //escribir archivo
+
       await arrayToFile(this.fileName, array);
-      //devolver id
       return obj.id;
     } catch (error) {
       throw error;
@@ -73,15 +66,11 @@ module.exports = class cartContainer {
 
    async getCartById(id) {
     try {
-       //console.log(`chequeo que el archivo exista si no existe lo creo`)
        await fileChecker(this.fileName);
-       //console.log(`traigo datos y los meto en array`)
       let array = await fileToArray(this.fileName);
-      //console.log(`filtro array`)
       array = array.filter((x) => {
         return x.id == id;
       });
-      //console.log(`contenido filtrado ${array}`);
       if (array[0] == undefined) {
         return { error: "Carrito no encontrado" };
       } else {
@@ -94,7 +83,6 @@ module.exports = class cartContainer {
 
   async addProdToCartById(obj) {
     try {
-        //chequeo que el archivo exista si no existe lo creo
         await fileChecker(this.fileName);
 
       let array = await fileToArray(this.fileName);
@@ -150,7 +138,6 @@ module.exports = class cartContainer {
 
    async deleteProductoToCartById(obj) {
     try {
-      //chequeo que el archivo exista si no existe lo creo
       await fileChecker(this.fileName);
 
       let array = await fileToArray(this.fileName);

@@ -103,7 +103,7 @@ cartRouter.delete("/:id/productos/:idprod", async (req, res) => {
   try {
     let deleteCombo = {};
     let id = parseInt(req.params.id);
-    let id_prod = parseInt(req.params.id_prod);
+    let idprod = parseInt(req.params.idprod);
     deleteCombo.idprod = idprod;
     deleteCombo.id = id;
     let obj = await carritos.deleteProductoToCartById(deleteCombo);

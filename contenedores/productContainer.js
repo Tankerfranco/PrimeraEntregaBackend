@@ -2,8 +2,6 @@ const fs = require("fs");
 
 const fileToArray = async (fileName) => {
   try {
-    //leer archivo y cargarlo en array
-    //devolver array
     return JSON.parse(await fs.promises.readFile(fileName));
   } catch (error) {
     console.log("Se produjo un error!");
@@ -13,7 +11,6 @@ const fileToArray = async (fileName) => {
 
 const arrayToFile = async (fileName, array) => {
   try {
-    //leer archivo y cargarlo en array
     await fs.promises.writeFile(fileName, JSON.stringify(array));
   } catch (error) {
     throw error;
@@ -22,7 +19,6 @@ const arrayToFile = async (fileName, array) => {
 
  const createEmptyFile = async (fileName) => {
   try {
-    //leer archivo y cargarlo en array
     await fs.promises.writeFile(fileName, "[]");
   } catch (e) {
     throw error;
@@ -31,7 +27,6 @@ const arrayToFile = async (fileName, array) => {
 
 
 const fileChecker = async (fileName) => {
-  //chequeo que el archivo exista si no existe lo creo
   const stats = fs.existsSync(fileName);
  
   if (!(stats)) {
@@ -42,13 +37,11 @@ const fileChecker = async (fileName) => {
 
 module.exports = class productContainer {
   constructor(fileName) {
-    //this.container = [];
     this.fileName = fileName;
   }
 
   async save(obj) {
     try {
-        //chequeo que el archivo exista si no existe lo creo
          await fileChecker(this.fileName);
 
       let array = await fileToArray(this.fileName);
@@ -56,20 +49,16 @@ module.exports = class productContainer {
       let longitud = array.length;
       console.log(longitud);
       let index = 0;
-      //Valido que el array tenga objetos
       if (longitud == 0) {
         index = 1;
       } else {
-        //sumar uno al id del ultimo elemento y agregarlo al id del objeto
         index = array[longitud - 1].id + 1;
         console.log(`Index ${index}`);
       }
 
       obj.id = index;
       array.push(obj);
-      //escribir archivo
       await arrayToFile(this.fileName, array);
-      //devolver id
       return obj.id;
     } catch (error) {
       throw error;
@@ -78,8 +67,6 @@ module.exports = class productContainer {
 
    async getById(id) {
     try {
-
-       //chequeo que el archivo exista si no existe lo creo
        await fileChecker(this.fileName);
 
       let array = await fileToArray(this.fileName);
@@ -100,7 +87,6 @@ module.exports = class productContainer {
 
   async updateById(obj) {
     try {
-        //chequeo que el archivo exista si no existe lo creo
         await fileChecker(this.fileName);
 
       let array = await fileToArray(this.fileName);

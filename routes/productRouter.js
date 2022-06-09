@@ -3,7 +3,6 @@ const productRouter = express.Router();
 const path = require('path');
 const moment = require('moment'); 
 
-
 let productContainer = require("../contenedores/productContainer.js");
 let archivoPath = path.join(__dirname, '..', '/data/productos.json');
 let productos = new productContainer(archivoPath);
@@ -11,6 +10,8 @@ let productos = new productContainer(archivoPath);
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
 
+
+//Autentificacion de admin
 const middlewareAutenticacion = (req,res,next) => {
   req.user = {
       fullName: "Franco Negrete",
@@ -18,6 +19,8 @@ const middlewareAutenticacion = (req,res,next) => {
   };
   next();
 }
+
+//Autorizacion de admin
 const middlewareAutorizacion = (req,res,next) => {
   if (req.user.isAdmin) {
       next();

@@ -1,10 +1,5 @@
 const fs = require("fs");
 
-/**
- * Lee un array de objetos dentro de un archivo, retorna un array de objetos json
- * @param {string} fileName
- * @returns Array de objetos contenido en el archivo
- */
 const fileToArray = async (fileName) => {
   try {
     //leer archivo y cargarlo en array
@@ -16,11 +11,6 @@ const fileToArray = async (fileName) => {
   }
 };
 
-/**
- * Escribe el array completo en un archivo
- * @param {string} fileName
- * @param {obj} array
- */
 const arrayToFile = async (fileName, array) => {
   try {
     //leer archivo y cargarlo en array
@@ -30,10 +20,6 @@ const arrayToFile = async (fileName, array) => {
   }
 };
 
-/**
- * Crea un archivo nuevo con el nombre recibido por parametro
- * @param {string} fileName
- */
  const createEmptyFile = async (fileName) => {
   try {
     //leer archivo y cargarlo en array
@@ -43,10 +29,7 @@ const arrayToFile = async (fileName, array) => {
   }
 };
 
-/**
- * Valida que exista el archivo, si no existe lo crea llamando a createEmptyFile(fileName)
- * @param {string} fileName 
- */
+
 const fileChecker = async (fileName) => {
   //chequeo que el archivo exista si no existe lo creo
   const stats = fs.existsSync(fileName);
@@ -63,11 +46,6 @@ module.exports = class productContainer {
     this.fileName = fileName;
   }
 
-  /**
-   * Guarda agrega un objeto array
-   * @param {string} obj
-   * @returns Id del objeto guardado
-   */
   async save(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
@@ -98,11 +76,6 @@ module.exports = class productContainer {
     }
   }
 
-  /**
-   * Selecciona un objeto del archivo y lo devuleve
-   * @param {int} id
-   * @returns Devuelve el objeto si lo encuentra
-   */
    async getById(id) {
     try {
 
@@ -125,11 +98,6 @@ module.exports = class productContainer {
     }
   }
 
-  /**
-   * Selecciona un objeto del archivo y lo devuleve
-   * @param {int} id
-   * @returns Devuelve el objeto si lo encuentra
-   */
   async updateById(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
@@ -154,10 +122,6 @@ module.exports = class productContainer {
     }
   }
 
-  /**
-   *
-   * @returns Devuelve todos los objetos del array
-   */
   async getAll() {
     try {
       await fileChecker(this.fileName);
@@ -167,10 +131,6 @@ module.exports = class productContainer {
     }
   }
 
-  /**
-   * Borra el objeto con le id seleccionado en el array
-   * @param {int} id
-   */
   async deleteById(id) {
     try {
       await fileChecker(this.fileName);
@@ -194,9 +154,6 @@ module.exports = class productContainer {
     }
   }
 
-  /**
-   * Borra todos los objetos del archivo llamado a createEmptyFile(this.fileName)
-   */
    async deleteAll() {
     await createEmptyFile(this.fileName);
   }

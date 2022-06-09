@@ -1,10 +1,5 @@
 const fs = require("fs");
 
-/**
- * Lee un array de objetos dentro de un archivo, retorna un array de objetos json
- * @param {string} fileName
- * @returns Array de objetos contenido en el archivo
- */
 const fileToArray = async (fileName) => {
   try {
     //leer archivo y cargarlo en array
@@ -16,11 +11,6 @@ const fileToArray = async (fileName) => {
   }
 };
 
-/**
- * Escribe el array completo en un archivo
- * @param {string} fileName
- * @param {obj} array
- */
 const arrayToFile = async (fileName, array) => {
   try {
     //leer archivo y cargarlo en array
@@ -30,10 +20,6 @@ const arrayToFile = async (fileName, array) => {
   }
 };
 
-/**
- * Crea un archivo nuevo con el nombre recibido por parametro
- * @param {string} fileName
- */
 const createEmptyFile = async (fileName) => {
   try {
     //leer archivo y cargarlo en array
@@ -43,10 +29,6 @@ const createEmptyFile = async (fileName) => {
   }
 };
 
-/**
- * Valida que exista el archivo, si no existe lo crea llamando a createEmptyFile(fileName)
- * @param {string} fileName 
- */
 const fileChecker = async (fileName) => {
   //chequeo que el archivo exista si no existe lo creo
   const stats = fs.existsSync(fileName);
@@ -63,11 +45,6 @@ module.exports = class cartContainer {
     this.fileName = fileName;
   }
 
-  /**
-   * Guarda agrega un objeto array
-   * @param {string} obj
-   * @returns Id del objeto guardado
-   */
   async createCart(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
@@ -94,14 +71,8 @@ module.exports = class cartContainer {
     }
   }
 
-  /**
-   * Selecciona un objeto del archivo y lo devuleve
-   * @param {int} id
-   * @returns Devuelve el objeto si lo encuentra
-   */
    async getCartById(id) {
     try {
-
        //console.log(`chequeo que el archivo exista si no existe lo creo`)
        await fileChecker(this.fileName);
        //console.log(`traigo datos y los meto en array`)
@@ -121,11 +92,6 @@ module.exports = class cartContainer {
     }
   }
 
-  /**
-   * Selecciona un objeto del archivo y lo devuleve
-   * @param {int} id
-   * @returns Devuelve el objeto si lo encuentra
-   */
   async addProdToCartById(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
@@ -150,10 +116,6 @@ module.exports = class cartContainer {
     }
   }
 
-  /**
-   *
-   * @returns Devuelve todos los objetos del array
-   */
   async getAll() {
     try {
       await fileChecker(this.fileName);
@@ -163,10 +125,6 @@ module.exports = class cartContainer {
     }
   }
 
-  /**
-   * Borra el objeto con le id seleccionado en el array
-   * @param {int} id
-   */
   async deleteCartById(id) {
     try {
       await fileChecker(this.fileName);
@@ -190,10 +148,6 @@ module.exports = class cartContainer {
     }
   }
 
-  /**
-   * Borra el producto con le id carrito y id produ seleccionado en el array
-   * @param {obj} .id_cart .id_prod
-   */
    async deleteProductoToCartById(obj) {
     try {
       //chequeo que el archivo exista si no existe lo creo
@@ -225,11 +179,6 @@ module.exports = class cartContainer {
     }
   }
 
-
-
-  /**
-   * Borra todos los objetos del archivo llamado a createEmptyFile(this.fileName)
-   */
    async deleteAll() {
     await createEmptyFile(this.fileName);
   }

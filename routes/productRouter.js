@@ -11,13 +11,27 @@ let productos = new productContainer(archivoPath);
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
 
+const middlewareAutenticacion = (req,res,next) => {
+  req.user = {
+      fullName: "Franco Negrete",
+      isAdmin: true
+  };
+  next();
+}
+const middlewareAutorizacion = (req,res,next) => {
+  if (req.user.isAdmin) {
+      next();
+  } else {
+      res.status(401).send("No estas autorizado");
+  }
+}
+
 function getProd(id){
   return productos.getById(id);
 }
 
 //devuelve todos los productos
-//no valida permisos
-productRouter.get("/", async (req, res) => {
+productRouter.get("/", middlewareAutenticacion , async (req, res) => {
   try {
     res.send(await productos.getAll());
   } catch (error) {
@@ -26,8 +40,7 @@ productRouter.get("/", async (req, res) => {
 });
 
 //devuelve solo el producto que necesito con el id pasado por get
-//no valida permisos
- productRouter.get("/:id", async (req, res) => {
+ productRouter.get("/:id", middlewareAutenticacion, async (req, res) => {
   try {
     let id = parseInt(req.params.id);
     let obj = await productos.getById(id);
@@ -39,8 +52,7 @@ productRouter.get("/", async (req, res) => {
 });
 
 //recibe y agrega el producto pasado por post
-//solo admins
-productRouter.post("/", async (req, res) => {
+productRouter.post("/", middlewareAutenticacion, middlewareAutorizacion, async (req, res) => {
   try {
     if(req.body.adminStatus){
             let obj = {};
@@ -68,7 +80,7 @@ productRouter.post("/", async (req, res) => {
 });
 
 //recibe y actualiza el producto segun si id existe
-productRouter.put("/:id", async (req, res) => {
+productRouter.put("/:id", middlewareAutenticacion, middlewareAutorizacion, async (req, res) => {
   try {
     if(req.body.adminStatus){
     let obj = {};
@@ -92,7 +104,7 @@ productRouter.put("/:id", async (req, res) => {
 });
 
 //borra el producto con el id seleccionado
-productRouter.delete("/:id", async (req, res) => {
+productRouter.delete("/:id", middlewareAutenticacion, middlewareAutorizacion, async (req, res) => {
   try {
     if(req.body.adminStatus){
     let id = parseInt(req.params.id);
